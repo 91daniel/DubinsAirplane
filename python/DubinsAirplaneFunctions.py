@@ -48,7 +48,6 @@ DubinsAirplaneSolution['q_ei'] = np.zeros((3,1))
 DubinsAirplaneSolution['w_e'] = np.zeros((3,1))
 DubinsAirplaneSolution['q_e'] = np.zeros((3,1))
 
-
 def roty(theta=None):
     # Rotation around y
     R = np.array([  [cos(theta),    0,      sin(theta)],
@@ -93,7 +92,7 @@ def computeDubinsLSR(R=None, cls=None, cre=None, anglstart=None, anglend=None):
     if ell == 0:
         theta2 = 0
     else:
-        theta2 = acos( acos_value ) # theta - theta2 = psi_s
+        theta2 = acos( acos_value )
     
     if flag_zero == 1:
         theta2 = 0
@@ -191,13 +190,12 @@ def MinTurnRadius_DubinsAirplane(V=None,phi_max=None):
     # Compute Minimum Turning Radius
     g = 9.8065
     Rmin = pow( V,2 ) / (g * tan( phi_max ) )
-#    return 1
     return Rmin
 
 def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=None, gamma_max=None, idx=None, hdist=None):
     # Add Spiral in the Dubins Airplane Path beginning
     print " adding spiral at the beginning"
-    acc = 0.01
+    acc = 0.001
     cli = np.zeros((3,1))
     cri = np.zeros((3,1))
     zi = np.zeros((3,1))
@@ -439,7 +437,8 @@ def addSpiralEnd(zs=None, anglstart=None, ze=None, anglend=None, R_min=None, gam
         psii = psi
     
     return zi, anglinter, L, ci, psii
-            
+       
+# function to print the parameters that describe a dubins path     
 def printDubinsPath(dp=None):
     print "case: ", dp['case']
     print "p_s: ", dp['p_s']

@@ -61,7 +61,7 @@ def main():
     elif dubins_case == 5: # long climb RSR
         print '### Path Type: long climb RSR'
         start_node  = np.array( [0,   0,   -100,   0*pi/180,    VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [0, 200,   -550, 270*pi/180,    VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [0, 200,   -250, 270*pi/180,    VehiclePars.Vairspeed_0] )
     elif dubins_case == 6: # long climb RSL
         print '### Path Type: long climb RSL'
         start_node  = np.array( [0,   0,    -100, -70*pi/180,    VehiclePars.Vairspeed_0] )
@@ -109,14 +109,8 @@ def main():
     elif dubins_case == 0: # short climb RSL
         print '### Path Type: Dani'
         start_node  = np.array([ 0,   0,    0,  0,    VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [30, 110,  120, 11*pi/9, VehiclePars.Vairspeed_0] )
+        #end_node    = np.array( [30, 110,  120, 11*pi/9, VehiclePars.Vairspeed_0] )
         end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
-
-
-
-
-
-
         #end_node    = np.array( [40, 100,  105, 11*pi/9, VehiclePars.Vairspeed_0] )
         #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
 
@@ -129,6 +123,7 @@ def main():
         print '### computing path...'
         R_min = MinTurnRadius_DubinsAirplane( VehiclePars.Vairspeed_0, VehiclePars.Bank_max )
         
+        # Check if start and end node are too close. Since spiral-spiral-spiral (or curve-curve-curve) paths are not considered, the optimal path may not be found... (see Shkel, Lumelsky, 2001, Classification of the Dubins set, Prop. 5/6). Below is a conservative bound, which seems (by experiments) to assure a unproblematical computation of the dubins path.
         if ( np.linalg.norm(end_node[0:2] - start_node[0:2],ord=2) < 6*R_min ):
             print "!!!!!!!!!!!!!!!!"
             print "Start and End are close together. Path of type RLR, LRL may be optimal"
@@ -166,3 +161,4 @@ def testAllCases():
 
 if __name__ == "__main__":
     testAllCases()
+    
