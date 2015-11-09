@@ -111,11 +111,11 @@ def main():
         start_node  = np.array([ 0,   0,    0,  0,    VehiclePars.Vairspeed_0] )
         end_node    = np.array( [2, 6,  7, 11*pi/9, VehiclePars.Vairspeed_0] )
         end_node    = np.array( [2, 6,  8.255, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [2, 6,  4.87, 11*pi/9, VehiclePars.Vairspeed_0] ) # error...
-        end_node    = np.array( [2, 6,  4.825, 11*pi/9, VehiclePars.Vairspeed_0] ) # error does not reduce to less than 2.5552
-        end_node    = np.array( [2, 6,  4.89, 11*pi/9, VehiclePars.Vairspeed_0] ) # wrong path
-        end_node    = np.array( [2, 6,  4.88, 11*pi/9, VehiclePars.Vairspeed_0] ) # enormous long computation
-        end_node    = np.array( [2, 6,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
+        #end_node    = np.array( [2, 6,  4.87, 11*pi/9, VehiclePars.Vairspeed_0] ) # error...
+        #end_node    = np.array( [2, 6,  4.825, 11*pi/9, VehiclePars.Vairspeed_0] ) # error...
+        #end_node    = np.array( [2, 6,  4.89, 11*pi/9, VehiclePars.Vairspeed_0] ) # wrong path
+        #end_node    = np.array( [2, 6,  4.88, 11*pi/9, VehiclePars.Vairspeed_0] ) # enormous long computation
+        #end_node    = np.array( [2, 6,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
         #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
 
     if dubins_case > 16:

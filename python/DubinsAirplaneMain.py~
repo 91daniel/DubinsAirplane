@@ -116,7 +116,7 @@ def main():
         end_node    = np.array( [2, 6,  4.89, 11*pi/9, VehiclePars.Vairspeed_0] ) # wrong path
         end_node    = np.array( [2, 6,  4.88, 11*pi/9, VehiclePars.Vairspeed_0] ) # enormous long computation
         end_node    = np.array( [2, 6,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
-        #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
 
     if dubins_case > 16:
         flag_nc = 1
