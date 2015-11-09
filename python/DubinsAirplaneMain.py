@@ -113,6 +113,7 @@ def main():
         end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
         #end_node    = np.array( [40, 100,  105, 11*pi/9, VehiclePars.Vairspeed_0] )
         #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
 
     if dubins_case > 16:
         flag_nc = 1
