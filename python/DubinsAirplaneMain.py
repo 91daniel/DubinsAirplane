@@ -107,14 +107,20 @@ def main():
         start_node  = np.array( [0,   0,   -150, 0*pi/180,     VehiclePars.Vairspeed_0] )
         end_node    = np.array( [100, -100,-100, -90*pi/180,   VehiclePars.Vairspeed_0] )
     elif dubins_case == 0: # short climb RSL
-        print '### Path Type: Dani'
-        start_node  = np.array([ 0,   0,    0,  0,    VehiclePars.Vairspeed_0] )
-        #end_node    = np.array( [30, 110,  120, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
-        #end_node    = np.array( [40, 100,  105, 11*pi/9, VehiclePars.Vairspeed_0] )
-        #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
+        print '### Path Type: for fixing errors'
+        start_node  = np.array( [0,   0,   0, 0, VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [40, -140,  100, 11*pi/9, VehiclePars.Vairspeed_0] ) # LSRL
+        #end_node    = np.array( [40, -140,  140, 2*pi/9, VehiclePars.Vairspeed_0] ) # LSLR
 
+        #end_node    = np.array( [40, 140,  140, 11*pi/9, VehiclePars.Vairspeed_0] ) # RSLR
+        #end_node    = np.array( [40, 140,  140, 1*pi/9, VehiclePars.Vairspeed_0] ) # RSRL
+
+        #end_node    = np.array( [40, 140,  -140, 11*pi/9, VehiclePars.Vairspeed_0] ) # RLSR
+        end_node    = np.array( [60, 140,  -140, 0*pi/14, VehiclePars.Vairspeed_0] ) # RLSL
+        #end_node    = np.array( [40, -140,  -100, 11*pi/9, VehiclePars.Vairspeed_0] ) # LRSL        
+        end_node    = np.array( [45, -140,  -100, 10*pi/180, VehiclePars.Vairspeed_0] ) # LRSR    
+
+        
     if dubins_case > 16:
         flag_nc = 1
         print 'Not a case'

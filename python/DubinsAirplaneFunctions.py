@@ -224,7 +224,8 @@ def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=Non
                 psi1 = psi
             
             psi = ( psi1 + psi2 ) / 2
-        
+            print "idx1", error
+            
         zi = crs + np.dot( rotz( psi ), ( zs-crs ) )
         anglinter = anglstart + psi
         L = L + fabs( psi ) * R_min
@@ -249,7 +250,8 @@ def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=Non
                 psi1 = psi
             
             psi = ( psi1 + psi2 ) / 2
-        
+            print "idx2", error
+            
         zi   = crs + np.dot( rotz( psi ), ( zs-crs ) )
         anglinter = anglstart + psi
         L = L + fabs( psi ) * R_min
@@ -275,7 +277,8 @@ def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=Non
                 psi1 = psi
             
             psi = ( psi1 + psi2 ) / 2
-        
+            print "idx3", error
+            
         zi   = cls + np.dot( rotz( -psi ), ( zs-cls ) )
         anglinter = anglstart - psi
         L = L + fabs( psi ) * R_min
@@ -305,6 +308,7 @@ def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=Non
                 psi1 = psi
             
             psi = ( psi1 + psi2 ) / 2
+            print "idx4", error
         
         zi   = cls + np.dot( rotz( -psi ), ( zs-cls ) )
         anglinter = anglstart - psi
@@ -856,7 +860,7 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
             DubinsAirplaneSolution['k_ei'] = 0 # nbr of full circles
             # end spiral
             DubinsAirplaneSolution['c_e'] = cre - np.array([0, 0, -dist3*tan(gam)]).T # center of end spiral (z coord: end-length*gam*(-1))
-            DubinsAirplaneSolution['psi_e'] = (anglend-pi/2-psii) # angle on last spiral
+            DubinsAirplaneSolution['psi_e'] = anglend-pi/2-psii # angle on last spiral
             #DubinsAirplaneSolution['psi_e'] = -psii # angle on last spiral
             DubinsAirplaneSolution['lamda_e'] = 1 # direction of rotation (1=cw)
             DubinsAirplaneSolution['k_e'] = 0
@@ -895,7 +899,7 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
             DubinsAirplaneSolution['k_ei'] = 0
             # end spiral
             DubinsAirplaneSolution['c_e'] = cle - np.array([0, 0, -dist3*tan(gam)]).T
-            DubinsAirplaneSolution['psi_e'] = psii
+            DubinsAirplaneSolution['psi_e'] = anglend+pi/2+psii
             DubinsAirplaneSolution['lamda_e'] = -1
             DubinsAirplaneSolution['k_e'] = 0
             # hyperplane H_s: switch from first to second spiral
@@ -933,7 +937,7 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
             DubinsAirplaneSolution['k_ei'] = 0
             # end spiral
             DubinsAirplaneSolution['c_e'] = cre - np.array([0, 0, -dist3*tan(gam)]).T
-            DubinsAirplaneSolution['psi_e'] = -psii
+            DubinsAirplaneSolution['psi_e'] = anglend-pi/2-psii
             DubinsAirplaneSolution['lamda_e'] = 1
             DubinsAirplaneSolution['k_e'] = 0
             # hyperplane H_s: switch from first to second spiral
@@ -975,7 +979,7 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
             DubinsAirplaneSolution['k_ei'] = 0
             # end spiral
             DubinsAirplaneSolution['c_e'] = cle - np.array([0, 0, -dist3*tan(gam)]).T
-            DubinsAirplaneSolution['psi_e'] = psii
+            DubinsAirplaneSolution['psi_e'] = anglend+pi/2+psii
             DubinsAirplaneSolution['lamda_e'] = -1
             DubinsAirplaneSolution['k_e'] = 0
             # hyperplane H_s: switch from first to second spiral
