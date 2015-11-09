@@ -48,40 +48,6 @@ DubinsAirplaneSolution['q_ei'] = np.zeros((3,1))
 DubinsAirplaneSolution['w_e'] = np.zeros((3,1))
 DubinsAirplaneSolution['q_e'] = np.zeros((3,1))
 
-SpiralEnd = { }
-SpiralEnd['case'] = 0
-SpiralEnd['p_s'] = np.zeros((3,1))
-SpiralEnd['angl_s'] = 0
-SpiralEnd['p_e'] = np.zeros((3,1))
-SpiralEnd['R'] = 0
-SpiralEnd['gamma'] = 0
-SpiralEnd['L'] = 0
-SpiralEnd['c_s'] = np.zeros((3,1))
-SpiralEnd['psi_s'] = 0
-SpiralEnd['lamda_s'] = 0
-SpiralEnd['lamda_si'] = 0
-SpiralEnd['k_s'] = 0
-SpiralEnd['c_ei'] = np.zeros((3,1))
-SpiralEnd['c_si'] = np.zeros((3,1))
-SpiralEnd['psi_ei'] = 0
-SpiralEnd['lamda_ei'] = 0
-SpiralEnd['psi_si'] = 0
-SpiralEnd['k_ei'] = 0
-SpiralEnd['c_e'] = 0
-SpiralEnd['k_si'] = 0
-SpiralEnd['psi_e'] = 0
-SpiralEnd['lamda_e'] = 0
-SpiralEnd['k_e'] = 0
-SpiralEnd['w_s'] = np.zeros((3,1))
-SpiralEnd['q_s'] = np.zeros((3,1))
-SpiralEnd['w_si'] = np.zeros((3,1))
-SpiralEnd['q_si'] = np.zeros((3,1))
-SpiralEnd['w_l'] = np.zeros((3,1))
-SpiralEnd['q_l'] = np.zeros((3,1))
-SpiralEnd['w_ei'] = np.zeros((3,1))
-SpiralEnd['q_ei'] = np.zeros((3,1))
-SpiralEnd['w_e'] = np.zeros((3,1))
-SpiralEnd['q_e'] = np.zeros((3,1))
 
 def roty(theta=None):
     # Rotation around y
@@ -225,8 +191,8 @@ def MinTurnRadius_DubinsAirplane(V=None,phi_max=None):
     # Compute Minimum Turning Radius
     g = 9.8065
     Rmin = pow( V,2 ) / (g * tan( phi_max ) )
-    return 1
-#    return Rmin
+#    return 1
+    return Rmin
 
 def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=None, gamma_max=None, idx=None, hdist=None):
     # Add Spiral in the Dubins Airplane Path beginning
@@ -354,7 +320,6 @@ def addSpiralBeginning(zs=None, anglstart=None, ze=None, anglend=None, R_min=Non
 def addSpiralEnd(zs=None, anglstart=None, ze=None, anglend=None, R_min=None, gamma_max=None, idx=None, hdist=None):
     # Add Spiral at the end of the Dubins Airplane path
     print " adding spiral at the end"
-    print idx
     acc = 0.0000001
     cli = np.zeros((3,1))
     cri = np.zeros((3,1))
@@ -386,7 +351,6 @@ def addSpiralEnd(zs=None, anglstart=None, ze=None, anglend=None, R_min=None, gam
                 psi1 = psi
             
             psi = ( psi1 + psi2 ) / 2
-            print error
         
         zi   = cre + np.dot( rotz( -psi ), ( ze-cre ) )
         anglinter = anglend - psi
@@ -517,7 +481,7 @@ def printDubinsPath(dp=None):
 
 def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=None):
     # Compute the Dubins Airplane path
-    lmh = 0
+    lmh = 0 # low (-1), intermediate (0) or high (1) altitude case
     zs = (init_conf[0:3]).T
     anglstart = init_conf[3]
     ze = (final_conf[0:3]).T
@@ -535,13 +499,9 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
     
     # compute L1, L2, L3, L4
     L1 = computeDubinsRSR(R_min, crs, cre, anglstart, anglend)
-    print "RSR: ", L1
     L2 = computeDubinsRSL(R_min, crs, cle, anglstart, anglend)
-    print "RSL: ", L2
     L3 = computeDubinsLSR(R_min, cls, cre, anglstart, anglend)
-    print "LSR: ", L3
     L4 = computeDubinsLSL(R_min, cls, cle, anglstart, anglend)
-    print "LSL: ", L4
     
     # L is the minimum distance
     L = np.amin(np.array([L1, L2, L3, L4]))
@@ -599,11 +559,9 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
         
         if hdist > 0:
             zi, chii, L, ci, psii = addSpiralBeginning( zs, anglstart, ze, anglend, R_min, gam, idx, hdist )
-            print "spiralStart params hdist>0: ", zi, chii, L, ci, psii
             DubinsAirplaneSolution['case'] = 2 
         else:
             zi, chii, L, ci, psii = addSpiralEnd( zs, anglstart, ze, anglend, R_min, gam, idx, hdist )
-            print "spiralStart params hdist<0: ", zi, chii, L, ci, psii
             DubinsAirplaneSolution['case'] = 3
         
         DubinsAirplaneSolution['R'] = R_min
@@ -1038,10 +996,11 @@ def DubinsAirplanePath(init_conf=None, final_conf=None, R_min=None, gamma_max=No
     if DubinsAirplaneSolution['case'] == 4: 
         print '### Not Implemented Case'
     
-    print "low-1, medium0 or high1: ", lmh
-    print "hdist: ", hdist
-    print "case (splsp1, spsplsp2, splspsp3: ", DubinsAirplaneSolution['case']
-    print "idx (case1: idx(RSR1, RSL2, LSR3, LSL4), case2/3: idx(RLSR1, RLSL2, LRSR3, LRSL4) ): ", idx
+    print "Summary of Dubins Path: "
+    print "low (-1), intermediate (0) or high (1) altitude: ", lmh
+    print "height distance hdist: ", hdist
+    print "case (splsp (1), spsplsp (2), splspsp (3): ", DubinsAirplaneSolution['case']
+    print "idx (case1: idx(RSR (1), RSL (2), LSR (3), LSL (4) ), case2/3: idx(RLSR (1), RLSL (2), LRSR (3), LRSL (4) ) ): ", idx
 
 
 

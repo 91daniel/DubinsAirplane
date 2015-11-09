@@ -9,7 +9,7 @@ from DubinsAirplaneFunctions import *
 from PlottingTools import plot3
 import numpy as np
 import time
-
+import sys
 
 pi = np.pi
 dubins_case = 0
@@ -36,7 +36,7 @@ class VehicleParameters(object):
 def main():
     # Example main for the 16 cases Dubins Airplane paths
     t0 = time.clock()
-    VehiclePars = VehicleParameters( 15, pi/4, 0.5 ) 
+    VehiclePars = VehicleParameters( 15, pi/4, pi/6 ) 
     ExFlags = ExecutionFlags( verbose_flag,plot_flag )
     
     flag_nc = 0
@@ -109,14 +109,16 @@ def main():
     elif dubins_case == 0: # short climb RSL
         print '### Path Type: Dani'
         start_node  = np.array([ 0,   0,    0,  0,    VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [2, 6,  7, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [2, 6,  8.255, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [2, 6,  4.87, 11*pi/9, VehiclePars.Vairspeed_0] ) # error...
-        end_node    = np.array( [2, 6,  4.825, 11*pi/9, VehiclePars.Vairspeed_0] ) # error does not reduce to less than 2.5552
-        end_node    = np.array( [2, 6,  4.89, 11*pi/9, VehiclePars.Vairspeed_0] ) # wrong path
-        end_node    = np.array( [2, 6,  4.88, 11*pi/9, VehiclePars.Vairspeed_0] ) # enormous long computation
-        end_node    = np.array( [2, 6,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
-        end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [30, 110,  120, 11*pi/9, VehiclePars.Vairspeed_0] )
+        end_node    = np.array( [40, 140,  199, 11*pi/9, VehiclePars.Vairspeed_0] )
+
+
+
+
+
+
+        #end_node    = np.array( [40, 100,  105, 11*pi/9, VehiclePars.Vairspeed_0] )
+        #end_node    = np.array( [3, 7,  -7, 11*pi/9, VehiclePars.Vairspeed_0] )
 
     if dubins_case > 16:
         flag_nc = 1
@@ -126,31 +128,23 @@ def main():
         print '### Case loaded.'
         print '### computing path...'
         R_min = MinTurnRadius_DubinsAirplane( VehiclePars.Vairspeed_0, VehiclePars.Bank_max )
+        
+        if ( np.linalg.norm(end_node[0:2] - start_node[0:2],ord=2) < 6*R_min ):
+            print "!!!!!!!!!!!!!!!!"
+            print "Start and End are close together. Path of type RLR, LRL may be optimal"
+            print "May fail to compute optimal path! Aborting"
+            print "Conservative condition (end_node[0:2] - start_node[0:2],ord=2) < 6*R_min) not fulfilled!"
+            print "!!!!!!!!!!!!!!!!"
+            sys.exit()
+            
         DubinsAirplaneSolution = DubinsAirplanePath( start_node, end_node, R_min, VehiclePars.Gamma_max )
-        SpiralEnd = DubinsAirplanePath( start_node, end_node, R_min, VehiclePars.Gamma_max )
         if ExFlags.verbose :
             PrintSolutionAgainstMATLAB( DubinsAirplaneSolution )
-        #DubinsAirplaneSolution['psi_e'] = 4.96517118301+1.55*pi
+
         path_dubins_airplane = ExtractDubinsAirplanePath( DubinsAirplaneSolution )
         path_dubins_airplane = path_dubins_airplane.T
-        SpiralEnd['R'] = 1
-        SpiralEnd['gamma']=-0.5
-        SpiralEnd['c_e']= np.array([ 2.64278761,5.23395556,4.28751462])
-        SpiralEnd['psi_e']=4.96517118301+1.55*pi
-        SpiralEnd['lamda_e']=1
-        SpiralEnd['k_e']=0
-        SpiralEnd['w_e']= np.array([2,6,7])
-        SpiralEnd['c_ei']= np.array([ 0.8378673,4.37240889,2.61254941])
-        SpiralEnd['psi_ei']=3.51135274401
-        SpiralEnd['lamda_ei']=-1
-        SpiralEnd['k_ei']=0
-        SpiralEnd['w_ei']= np.array([1.74032744,4.80318224,4.28751462])
-        SpiralEnd['q_ei']= np.array([0.43077331,-0.90246017,0.])
-        print DubinsAirplaneSolution['psi_ei']
-        print DubinsAirplaneSolution['psi_e']
 
-        path_dubins_airplane1 = TestDrawingSpiral( SpiralEnd )
-        path_dubins_airplane1 = path_dubins_airplane1.T
+
         print '### Execution time = ' + str( time.clock() - t0 )
         np.savetxt( fname, path_dubins_airplane.T, delimiter = ',' ) 
         print '### Dubins airplane solution saved in ' + fname
