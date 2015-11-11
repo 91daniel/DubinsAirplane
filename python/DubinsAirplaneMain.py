@@ -119,7 +119,7 @@ def main():
         end_node    = np.array( [60, 140,  -140, 0*pi/14, VehiclePars.Vairspeed_0] ) # RLSL
         #end_node    = np.array( [40, -140,  -100, 11*pi/9, VehiclePars.Vairspeed_0] ) # LRSL        
         end_node    = np.array( [45, -140,  -100, 10*pi/180, VehiclePars.Vairspeed_0] ) # LRSR    
-
+        end_node    = np.array( [137.64, 45.88,  105, 270*pi/180, VehiclePars.Vairspeed_0] ) # LRSR    
         
     if dubins_case > 16:
         flag_nc = 1
